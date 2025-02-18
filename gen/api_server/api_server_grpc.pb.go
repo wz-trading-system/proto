@@ -19,91 +19,91 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ApiServerService_CreateStrategy_FullMethodName = "/api.server.ApiServerService/CreateStrategy"
+	ExternalAPIService_CreateStrategy_FullMethodName = "/api.server.ExternalAPIService/CreateStrategy"
 )
 
-// ApiServerServiceClient is the client API for ApiServerService service.
+// ExternalAPIServiceClient is the client API for ExternalAPIService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ApiServerServiceClient interface {
+type ExternalAPIServiceClient interface {
 	// 创建策略
 	CreateStrategy(ctx context.Context, in *CreateStrategyRequest, opts ...grpc.CallOption) (*CreateStrategyResponse, error)
 }
 
-type apiServerServiceClient struct {
+type externalAPIServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewApiServerServiceClient(cc grpc.ClientConnInterface) ApiServerServiceClient {
-	return &apiServerServiceClient{cc}
+func NewExternalAPIServiceClient(cc grpc.ClientConnInterface) ExternalAPIServiceClient {
+	return &externalAPIServiceClient{cc}
 }
 
-func (c *apiServerServiceClient) CreateStrategy(ctx context.Context, in *CreateStrategyRequest, opts ...grpc.CallOption) (*CreateStrategyResponse, error) {
+func (c *externalAPIServiceClient) CreateStrategy(ctx context.Context, in *CreateStrategyRequest, opts ...grpc.CallOption) (*CreateStrategyResponse, error) {
 	out := new(CreateStrategyResponse)
-	err := c.cc.Invoke(ctx, ApiServerService_CreateStrategy_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, ExternalAPIService_CreateStrategy_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ApiServerServiceServer is the server API for ApiServerService service.
-// All implementations must embed UnimplementedApiServerServiceServer
+// ExternalAPIServiceServer is the server API for ExternalAPIService service.
+// All implementations must embed UnimplementedExternalAPIServiceServer
 // for forward compatibility
-type ApiServerServiceServer interface {
+type ExternalAPIServiceServer interface {
 	// 创建策略
 	CreateStrategy(context.Context, *CreateStrategyRequest) (*CreateStrategyResponse, error)
-	mustEmbedUnimplementedApiServerServiceServer()
+	mustEmbedUnimplementedExternalAPIServiceServer()
 }
 
-// UnimplementedApiServerServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedApiServerServiceServer struct {
+// UnimplementedExternalAPIServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedExternalAPIServiceServer struct {
 }
 
-func (UnimplementedApiServerServiceServer) CreateStrategy(context.Context, *CreateStrategyRequest) (*CreateStrategyResponse, error) {
+func (UnimplementedExternalAPIServiceServer) CreateStrategy(context.Context, *CreateStrategyRequest) (*CreateStrategyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateStrategy not implemented")
 }
-func (UnimplementedApiServerServiceServer) mustEmbedUnimplementedApiServerServiceServer() {}
+func (UnimplementedExternalAPIServiceServer) mustEmbedUnimplementedExternalAPIServiceServer() {}
 
-// UnsafeApiServerServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ApiServerServiceServer will
+// UnsafeExternalAPIServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ExternalAPIServiceServer will
 // result in compilation errors.
-type UnsafeApiServerServiceServer interface {
-	mustEmbedUnimplementedApiServerServiceServer()
+type UnsafeExternalAPIServiceServer interface {
+	mustEmbedUnimplementedExternalAPIServiceServer()
 }
 
-func RegisterApiServerServiceServer(s grpc.ServiceRegistrar, srv ApiServerServiceServer) {
-	s.RegisterService(&ApiServerService_ServiceDesc, srv)
+func RegisterExternalAPIServiceServer(s grpc.ServiceRegistrar, srv ExternalAPIServiceServer) {
+	s.RegisterService(&ExternalAPIService_ServiceDesc, srv)
 }
 
-func _ApiServerService_CreateStrategy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ExternalAPIService_CreateStrategy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateStrategyRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServerServiceServer).CreateStrategy(ctx, in)
+		return srv.(ExternalAPIServiceServer).CreateStrategy(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ApiServerService_CreateStrategy_FullMethodName,
+		FullMethod: ExternalAPIService_CreateStrategy_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServerServiceServer).CreateStrategy(ctx, req.(*CreateStrategyRequest))
+		return srv.(ExternalAPIServiceServer).CreateStrategy(ctx, req.(*CreateStrategyRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// ApiServerService_ServiceDesc is the grpc.ServiceDesc for ApiServerService service.
+// ExternalAPIService_ServiceDesc is the grpc.ServiceDesc for ExternalAPIService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var ApiServerService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.server.ApiServerService",
-	HandlerType: (*ApiServerServiceServer)(nil),
+var ExternalAPIService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "api.server.ExternalAPIService",
+	HandlerType: (*ExternalAPIServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "CreateStrategy",
-			Handler:    _ApiServerService_CreateStrategy_Handler,
+			Handler:    _ExternalAPIService_CreateStrategy_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -26,7 +26,7 @@ message CreateStrategyResponse {
 }
 
 // API服务
-service ApiServerService {
+service ExternalAPIService {
   // 创建策略
   rpc CreateStrategy(CreateStrategyRequest) returns (CreateStrategyResponse) {
     option (google.api.http) = {

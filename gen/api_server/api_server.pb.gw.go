@@ -31,7 +31,7 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
-func request_ApiServerService_CreateStrategy_0(ctx context.Context, marshaler runtime.Marshaler, client ApiServerServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_ExternalAPIService_CreateStrategy_0(ctx context.Context, marshaler runtime.Marshaler, client ExternalAPIServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq CreateStrategyRequest
 	var metadata runtime.ServerMetadata
 
@@ -44,7 +44,7 @@ func request_ApiServerService_CreateStrategy_0(ctx context.Context, marshaler ru
 
 }
 
-func local_request_ApiServerService_CreateStrategy_0(ctx context.Context, marshaler runtime.Marshaler, server ApiServerServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_ExternalAPIService_CreateStrategy_0(ctx context.Context, marshaler runtime.Marshaler, server ExternalAPIServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq CreateStrategyRequest
 	var metadata runtime.ServerMetadata
 
@@ -57,13 +57,13 @@ func local_request_ApiServerService_CreateStrategy_0(ctx context.Context, marsha
 
 }
 
-// RegisterApiServerServiceHandlerServer registers the http handlers for service ApiServerService to "mux".
-// UnaryRPC     :call ApiServerServiceServer directly.
+// RegisterExternalAPIServiceHandlerServer registers the http handlers for service ExternalAPIService to "mux".
+// UnaryRPC     :call ExternalAPIServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterApiServerServiceHandlerFromEndpoint instead.
-func RegisterApiServerServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server ApiServerServiceServer) error {
+// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterExternalAPIServiceHandlerFromEndpoint instead.
+func RegisterExternalAPIServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server ExternalAPIServiceServer) error {
 
-	mux.Handle("POST", pattern_ApiServerService_CreateStrategy_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ExternalAPIService_CreateStrategy_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -71,12 +71,12 @@ func RegisterApiServerServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.server.ApiServerService/CreateStrategy", runtime.WithHTTPPathPattern("/v1/strategies"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.server.ExternalAPIService/CreateStrategy", runtime.WithHTTPPathPattern("/v1/strategies"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ApiServerService_CreateStrategy_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_ExternalAPIService_CreateStrategy_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -84,16 +84,16 @@ func RegisterApiServerServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 			return
 		}
 
-		forward_ApiServerService_CreateStrategy_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ExternalAPIService_CreateStrategy_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
 	return nil
 }
 
-// RegisterApiServerServiceHandlerFromEndpoint is same as RegisterApiServerServiceHandler but
+// RegisterExternalAPIServiceHandlerFromEndpoint is same as RegisterExternalAPIServiceHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterApiServerServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterExternalAPIServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.DialContext(ctx, endpoint, opts...)
 	if err != nil {
 		return err
@@ -113,41 +113,41 @@ func RegisterApiServerServiceHandlerFromEndpoint(ctx context.Context, mux *runti
 		}()
 	}()
 
-	return RegisterApiServerServiceHandler(ctx, mux, conn)
+	return RegisterExternalAPIServiceHandler(ctx, mux, conn)
 }
 
-// RegisterApiServerServiceHandler registers the http handlers for service ApiServerService to "mux".
+// RegisterExternalAPIServiceHandler registers the http handlers for service ExternalAPIService to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterApiServerServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return RegisterApiServerServiceHandlerClient(ctx, mux, NewApiServerServiceClient(conn))
+func RegisterExternalAPIServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterExternalAPIServiceHandlerClient(ctx, mux, NewExternalAPIServiceClient(conn))
 }
 
-// RegisterApiServerServiceHandlerClient registers the http handlers for service ApiServerService
-// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "ApiServerServiceClient".
-// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "ApiServerServiceClient"
+// RegisterExternalAPIServiceHandlerClient registers the http handlers for service ExternalAPIService
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "ExternalAPIServiceClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "ExternalAPIServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "ApiServerServiceClient" to call the correct interceptors.
-func RegisterApiServerServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client ApiServerServiceClient) error {
+// "ExternalAPIServiceClient" to call the correct interceptors.
+func RegisterExternalAPIServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client ExternalAPIServiceClient) error {
 
-	mux.Handle("POST", pattern_ApiServerService_CreateStrategy_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_ExternalAPIService_CreateStrategy_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.server.ApiServerService/CreateStrategy", runtime.WithHTTPPathPattern("/v1/strategies"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.server.ExternalAPIService/CreateStrategy", runtime.WithHTTPPathPattern("/v1/strategies"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_ApiServerService_CreateStrategy_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_ExternalAPIService_CreateStrategy_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_ApiServerService_CreateStrategy_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ExternalAPIService_CreateStrategy_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -155,9 +155,9 @@ func RegisterApiServerServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 }
 
 var (
-	pattern_ApiServerService_CreateStrategy_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "strategies"}, ""))
+	pattern_ExternalAPIService_CreateStrategy_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "strategies"}, ""))
 )
 
 var (
-	forward_ApiServerService_CreateStrategy_0 = runtime.ForwardResponseMessage
+	forward_ExternalAPIService_CreateStrategy_0 = runtime.ForwardResponseMessage
 )
