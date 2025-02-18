@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package api.server;
+
+option go_package = "trading-system/gen/api_server";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+// 策略配置请求
+message CreateStrategyRequest {
+  string name = 1;                    // 策略名称
+  string description = 2;             // 策略描述
+  string symbol = 3;                  // 交易对
+  double initial_capital = 4;         // 初始资金
+  map<string, string> parameters = 5; // 策略参数
+  bool is_active = 6;                 // 是否激活
+}
+
+// 策略配置响应
+message CreateStrategyResponse {
+  string strategy_id = 1;                      // 策略ID
+  string name = 2;                            // 策略名称
+  string status = 3;                          // 策略状态
+  google.protobuf.Timestamp created_at = 4;   // 创建时间
+}
+
+// API服务
+service ApiServer {
+  // 创建策略
+  rpc CreateStrategy(CreateStrategyRequest) returns (CreateStrategyResponse) {
+    option (google.api.http) = {
+      post: "/v1/strategies"
+      body: "*"
+    };
+  }
+} 
