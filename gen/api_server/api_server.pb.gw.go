@@ -10,7 +10,6 @@ package api_server
 
 import (
 	"context"
-	"errors"
 	"io"
 	"net/http"
 
@@ -25,130 +24,140 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var (
-	_ codes.Code
-	_ io.Reader
-	_ status.Status
-	_ = errors.New
-	_ = runtime.String
-	_ = utilities.NewDoubleArray
-	_ = metadata.Join
-)
+var _ codes.Code
+var _ io.Reader
+var _ status.Status
+var _ = runtime.String
+var _ = utilities.NewDoubleArray
+var _ = metadata.Join
 
-func request_ApiServer_CreateStrategy_0(ctx context.Context, marshaler runtime.Marshaler, client ApiServerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var (
-		protoReq CreateStrategyRequest
-		metadata runtime.ServerMetadata
-	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+func request_ApiServerService_CreateStrategy_0(ctx context.Context, marshaler runtime.Marshaler, client ApiServerServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq CreateStrategyRequest
+	var metadata runtime.ServerMetadata
+
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
+
 	msg, err := client.CreateStrategy(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
-func local_request_ApiServer_CreateStrategy_0(ctx context.Context, marshaler runtime.Marshaler, server ApiServerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var (
-		protoReq CreateStrategyRequest
-		metadata runtime.ServerMetadata
-	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+func local_request_ApiServerService_CreateStrategy_0(ctx context.Context, marshaler runtime.Marshaler, server ApiServerServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq CreateStrategyRequest
+	var metadata runtime.ServerMetadata
+
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
+
 	msg, err := server.CreateStrategy(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-// RegisterApiServerHandlerServer registers the http handlers for service ApiServer to "mux".
-// UnaryRPC     :call ApiServerServer directly.
+// RegisterApiServerServiceHandlerServer registers the http handlers for service ApiServerService to "mux".
+// UnaryRPC     :call ApiServerServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterApiServerHandlerFromEndpoint instead.
-// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
-func RegisterApiServerHandlerServer(ctx context.Context, mux *runtime.ServeMux, server ApiServerServer) error {
-	mux.Handle(http.MethodPost, pattern_ApiServer_CreateStrategy_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterApiServerServiceHandlerFromEndpoint instead.
+func RegisterApiServerServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server ApiServerServiceServer) error {
+
+	mux.Handle("POST", pattern_ApiServerService_CreateStrategy_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.server.ApiServer/CreateStrategy", runtime.WithHTTPPathPattern("/v1/strategies"))
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.server.ApiServerService/CreateStrategy", runtime.WithHTTPPathPattern("/v1/strategies"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ApiServer_CreateStrategy_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_ApiServerService_CreateStrategy_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_ApiServer_CreateStrategy_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+		forward_ApiServerService_CreateStrategy_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	return nil
 }
 
-// RegisterApiServerHandlerFromEndpoint is same as RegisterApiServerHandler but
+// RegisterApiServerServiceHandlerFromEndpoint is same as RegisterApiServerServiceHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterApiServerHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
-	conn, err := grpc.NewClient(endpoint, opts...)
+func RegisterApiServerServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+	conn, err := grpc.DialContext(ctx, endpoint, opts...)
 	if err != nil {
 		return err
 	}
 	defer func() {
 		if err != nil {
 			if cerr := conn.Close(); cerr != nil {
-				grpclog.Errorf("Failed to close conn to %s: %v", endpoint, cerr)
+				grpclog.Infof("Failed to close conn to %s: %v", endpoint, cerr)
 			}
 			return
 		}
 		go func() {
 			<-ctx.Done()
 			if cerr := conn.Close(); cerr != nil {
-				grpclog.Errorf("Failed to close conn to %s: %v", endpoint, cerr)
+				grpclog.Infof("Failed to close conn to %s: %v", endpoint, cerr)
 			}
 		}()
 	}()
-	return RegisterApiServerHandler(ctx, mux, conn)
+
+	return RegisterApiServerServiceHandler(ctx, mux, conn)
 }
 
-// RegisterApiServerHandler registers the http handlers for service ApiServer to "mux".
+// RegisterApiServerServiceHandler registers the http handlers for service ApiServerService to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterApiServerHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return RegisterApiServerHandlerClient(ctx, mux, NewApiServerClient(conn))
+func RegisterApiServerServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterApiServerServiceHandlerClient(ctx, mux, NewApiServerServiceClient(conn))
 }
 
-// RegisterApiServerHandlerClient registers the http handlers for service ApiServer
-// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "ApiServerClient".
-// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "ApiServerClient"
+// RegisterApiServerServiceHandlerClient registers the http handlers for service ApiServerService
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "ApiServerServiceClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "ApiServerServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "ApiServerClient" to call the correct interceptors. This client ignores the HTTP middlewares.
-func RegisterApiServerHandlerClient(ctx context.Context, mux *runtime.ServeMux, client ApiServerClient) error {
-	mux.Handle(http.MethodPost, pattern_ApiServer_CreateStrategy_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+// "ApiServerServiceClient" to call the correct interceptors.
+func RegisterApiServerServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client ApiServerServiceClient) error {
+
+	mux.Handle("POST", pattern_ApiServerService_CreateStrategy_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/api.server.ApiServer/CreateStrategy", runtime.WithHTTPPathPattern("/v1/strategies"))
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.server.ApiServerService/CreateStrategy", runtime.WithHTTPPathPattern("/v1/strategies"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_ApiServer_CreateStrategy_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_ApiServerService_CreateStrategy_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_ApiServer_CreateStrategy_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+		forward_ApiServerService_CreateStrategy_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
+
 	return nil
 }
 
 var (
-	pattern_ApiServer_CreateStrategy_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "strategies"}, ""))
+	pattern_ApiServerService_CreateStrategy_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "strategies"}, ""))
 )
 
 var (
-	forward_ApiServer_CreateStrategy_0 = runtime.ForwardResponseMessage
+	forward_ApiServerService_CreateStrategy_0 = runtime.ForwardResponseMessage
 )

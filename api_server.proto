@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package api.server;
 
-option go_package = "trading-system/gen/api_server";
+option go_package = "github.com/wz-trading-system/proto/gen/api_server";
 
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
@@ -26,7 +26,7 @@ message CreateStrategyResponse {
 }
 
 // API服务
-service ApiServer {
+service ApiServerService {
   // 创建策略
   rpc CreateStrategy(CreateStrategyRequest) returns (CreateStrategyResponse) {
     option (google.api.http) = {

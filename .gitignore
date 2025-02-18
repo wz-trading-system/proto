@@ -1,0 +1,9 @@
+# Generated files
+gen/
+
+# Go module files
+go.sum
+
+# IDE files
+.idea/
+.vscode/
